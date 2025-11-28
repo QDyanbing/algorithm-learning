@@ -1,15 +1,15 @@
 /**
  * 使用虚拟头节点删除指定值
- * 思路：
- * 1. 创建 dummy 节点指向 head，统一处理头节点被删除的场景。
- * 2. 用 prev 指针遍历，只要 prev.next 存在就比较目标值。
- * 3. 命中目标节点后将其跳过（prev.next = prev.next.next）并结束循环。
- * 4. 返回 dummy.next 即最新的头结点。
+ * 思路拆解：
+ * - 引入 dummy 节点是为了把“删除头节点”与“删除中间节点”统一处理，避免每次都写 if 判断。
+ * - prev 指针始终指向“已确认保留的节点”，prev.next 则指向待检查节点。
+ * - 一旦命中目标节点，通过 prev.next = prev.next.next 将其跳过，相当于删除。
+ * - dummy 并不会出现在最终链表中，最终返回 dummy.next 才是真实的头节点。
  *
- * 时间复杂度 O(n)，空间复杂度 O(1)。
- * @param {ListNode|null} head
- * @param {number} val
- * @returns {ListNode|null}
+ * 时间复杂度 O(n)，需要一次线性扫描；空间复杂度 O(1)。
+ * @param {ListNode|null} head 原链表头结点
+ * @param {number} val 要删除的节点值（保证唯一）
+ * @returns {ListNode|null} 删除后的链表头
  */
 export const deleteNodeByDummy = function (head, val) {
   const dummy = { next: head }; // Step 0：虚拟头节点
@@ -17,10 +17,10 @@ export const deleteNodeByDummy = function (head, val) {
 
   while (prev.next) {
     if (prev.next.val === val) {
-      prev.next = prev.next.next; // Step 1：跳过目标节点
+      prev.next = prev.next.next; // Step 1：跳过目标节点，原节点由 GC 回收
       break;
     }
-    prev = prev.next; // Step 2：继续向前搜索
+    prev = prev.next; // Step 2：继续向前搜索，直到链表末尾
   }
 
   return dummy.next;
@@ -28,16 +28,16 @@ export const deleteNodeByDummy = function (head, val) {
 
 /**
  * 双指针（前驱 + 当前）删除指定值
- * 思路：
- * 1. 若要删除的是头节点，直接返回 head.next。
- * 2. 使用 prev 指向前驱、curr 指向当前节点，同步向前遍历。
- * 3. 一旦 curr 命中目标值，让 prev.next 指向 curr.next 即可删除。
- * 4. 若遍历结束未找到，原链表保持不变。
+ * 思路拆解：
+ * - 这是最直接的手法：使用两个指针 prev（前驱）和 curr（当前），同步向前扫描。
+ * - 在进入循环前，先特判 head 即目标值的情况，此时直接返回 head.next。
+ * - 循环中若发现 curr.val === val，只需要把 prev.next 指向 curr.next，即可在 O(1) 时间删除 curr。
+ * - 若遍历到链表末尾仍未找到目标，则说明链表无需改动，直接返回原 head。
  *
  * 时间复杂度 O(n)，空间复杂度 O(1)。
- * @param {ListNode|null} head
- * @param {number} val
- * @returns {ListNode|null}
+ * @param {ListNode|null} head 原链表头结点
+ * @param {number} val 要删除的节点值
+ * @returns {ListNode|null} 删除后的头结点
  */
 export const deleteNodeByTwoPointers = function (head, val) {
   if (!head) return null;
@@ -51,7 +51,7 @@ export const deleteNodeByTwoPointers = function (head, val) {
       prev.next = curr.next; // Step 1：删除当前节点
       break;
     }
-    prev = curr; // Step 2：同步前进
+    prev = curr; // Step 2：同步前进，维持前驱关系
     curr = curr.next;
   }
 
