@@ -191,6 +191,119 @@ describe("相交链表 - 哈希集合法", () => {
     expect(result).toBe(expectedIntersection);
     expect(result?.val).toBe(3);
   });
+
+  it("两个链表完全相同（完全重叠）", () => {
+    const sharedPart = listToLink([1, 2, 3, 4, 5]);
+    const [headA, headB, expectedIntersection] = [
+      sharedPart,
+      sharedPart,
+      sharedPart,
+    ];
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(1);
+  });
+
+  it("链表A比链表B长很多", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      [11, 12, 8, 9, 10],
+      7,
+      2
+    );
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(8);
+  });
+
+  it("链表B比链表A长很多", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 5],
+      [3, 4, 6, 7, 8, 9, 10, 11, 12, 5],
+      2,
+      9
+    );
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(5);
+  });
+
+  it("相交部分很长（多个节点）", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7],
+      [8, 9, 3, 4, 5, 6, 7],
+      2,
+      2
+    );
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(3);
+  });
+
+  it("链表A只有一个节点", () => {
+    const sharedNode = new ListNode(5);
+    const headA = sharedNode;
+    const headB = new ListNode(1);
+    headB.next = new ListNode(2);
+    headB.next.next = sharedNode;
+
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(sharedNode);
+    expect(result?.val).toBe(5);
+  });
+
+  it("链表B只有一个节点", () => {
+    const sharedNode = new ListNode(5);
+    const headA = new ListNode(1);
+    headA.next = new ListNode(2);
+    headA.next.next = sharedNode;
+    const headB = sharedNode;
+
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(sharedNode);
+    expect(result?.val).toBe(5);
+  });
+
+  it("两个都是单节点的不同链表（不相交）", () => {
+    const headA = new ListNode(1);
+    const headB = new ListNode(2);
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBeNull();
+  });
+
+  it("两个都是单节点的相同链表（相交）", () => {
+    const sharedNode = new ListNode(1);
+    const headA = sharedNode;
+    const headB = sharedNode;
+
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(sharedNode);
+    expect(result?.val).toBe(1);
+  });
+
+  it("长链表的相交情况", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      [14, 15, 16, 17, 18, 10, 11, 12, 13],
+      9,
+      5
+    );
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(10);
+  });
+
+  it("相交部分只有一个节点但前缀很长", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      [11, 12, 13, 14, 15, 16, 17, 18, 19, 10],
+      9,
+      9
+    );
+    const result = getIntersectionNodeByHashSet(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(10);
+  });
 });
 
 describe("相交链表 - 双指针法", () => {
@@ -303,5 +416,118 @@ describe("相交链表 - 双指针法", () => {
     const result = getIntersectionNodeByTwoPointers(headA, headB);
     expect(result).toBe(expectedIntersection);
     expect(result?.val).toBe(3);
+  });
+
+  it("两个链表完全相同（完全重叠）", () => {
+    const sharedPart = listToLink([1, 2, 3, 4, 5]);
+    const [headA, headB, expectedIntersection] = [
+      sharedPart,
+      sharedPart,
+      sharedPart,
+    ];
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(1);
+  });
+
+  it("链表A比链表B长很多", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      [11, 12, 8, 9, 10],
+      7,
+      2
+    );
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(8);
+  });
+
+  it("链表B比链表A长很多", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 5],
+      [3, 4, 6, 7, 8, 9, 10, 11, 12, 5],
+      2,
+      9
+    );
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(5);
+  });
+
+  it("相交部分很长（多个节点）", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7],
+      [8, 9, 3, 4, 5, 6, 7],
+      2,
+      2
+    );
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(3);
+  });
+
+  it("链表A只有一个节点", () => {
+    const sharedNode = new ListNode(5);
+    const headA = sharedNode;
+    const headB = new ListNode(1);
+    headB.next = new ListNode(2);
+    headB.next.next = sharedNode;
+
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(sharedNode);
+    expect(result?.val).toBe(5);
+  });
+
+  it("链表B只有一个节点", () => {
+    const sharedNode = new ListNode(5);
+    const headA = new ListNode(1);
+    headA.next = new ListNode(2);
+    headA.next.next = sharedNode;
+    const headB = sharedNode;
+
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(sharedNode);
+    expect(result?.val).toBe(5);
+  });
+
+  it("两个都是单节点的不同链表（不相交）", () => {
+    const headA = new ListNode(1);
+    const headB = new ListNode(2);
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBeNull();
+  });
+
+  it("两个都是单节点的相同链表（相交）", () => {
+    const sharedNode = new ListNode(1);
+    const headA = sharedNode;
+    const headB = sharedNode;
+
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(sharedNode);
+    expect(result?.val).toBe(1);
+  });
+
+  it("长链表的相交情况", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      [14, 15, 16, 17, 18, 10, 11, 12, 13],
+      9,
+      5
+    );
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(10);
+  });
+
+  it("相交部分只有一个节点但前缀很长", () => {
+    const [headA, headB, expectedIntersection] = createIntersectedLists(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      [11, 12, 13, 14, 15, 16, 17, 18, 19, 10],
+      9,
+      9
+    );
+    const result = getIntersectionNodeByTwoPointers(headA, headB);
+    expect(result).toBe(expectedIntersection);
+    expect(result?.val).toBe(10);
   });
 });
