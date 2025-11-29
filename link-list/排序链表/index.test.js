@@ -55,6 +55,60 @@ describe("排序链表 - 递归实现", () => {
     const result = sortListByRecursion(head);
     expect(linkToList(result)).toEqual([-3, -1, 0, 2, 4]);
   });
+
+  it("所有元素相同 [3,3,3,3] => [3,3,3,3]", () => {
+    const head = listToLink([3, 3, 3, 3]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([3, 3, 3, 3]);
+  });
+
+  it("单节点值为0 [0] => [0]", () => {
+    const head = listToLink([0]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([0]);
+  });
+
+  it("两个节点已经有序 [1,2] => [1,2]", () => {
+    const head = listToLink([1, 2]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([1, 2]);
+  });
+
+  it("三个节点 [3,1,2] => [1,2,3]", () => {
+    const head = listToLink([3, 1, 2]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([1, 2, 3]);
+  });
+
+  it("奇数长度链表 [5,1,3] => [1,3,5]", () => {
+    const head = listToLink([5, 1, 3]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([1, 3, 5]);
+  });
+
+  it("只有负数 [-5,-3,-1] => [-5,-3,-1]", () => {
+    const head = listToLink([-5, -3, -1]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([-5, -3, -1]);
+  });
+
+  it("所有节点值相同但较多 [1,1,1,1,1] => [1,1,1,1,1]", () => {
+    const head = listToLink([1, 1, 1, 1, 1]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([1, 1, 1, 1, 1]);
+  });
+
+  it("包含多个0 [0,5,-3,0] => [-3,0,0,5]", () => {
+    const head = listToLink([0, 5, -3, 0]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([-3, 0, 0, 5]);
+  });
+
+  it("较大数值 [100,50,200] => [50,100,200]", () => {
+    const head = listToLink([100, 50, 200]);
+    const result = sortListByRecursion(head);
+    expect(linkToList(result)).toEqual([50, 100, 200]);
+  });
 });
 
 describe("排序链表 - 迭代实现", () => {
@@ -109,5 +163,59 @@ describe("排序链表 - 迭代实现", () => {
     const head = listToLink([4, -1, 2, -3, 0]);
     const result = sortListByIteration(head);
     expect(linkToList(result)).toEqual([-3, -1, 0, 2, 4]);
+  });
+
+  it("所有元素相同 [3,3,3,3] => [3,3,3,3]", () => {
+    const head = listToLink([3, 3, 3, 3]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([3, 3, 3, 3]);
+  });
+
+  it("单节点值为0 [0] => [0]", () => {
+    const head = listToLink([0]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([0]);
+  });
+
+  it("两个节点已经有序 [1,2] => [1,2]", () => {
+    const head = listToLink([1, 2]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([1, 2]);
+  });
+
+  it("三个节点 [3,1,2] => [1,2,3]", () => {
+    const head = listToLink([3, 1, 2]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([1, 2, 3]);
+  });
+
+  it("奇数长度链表 [5,1,3] => [1,3,5]", () => {
+    const head = listToLink([5, 1, 3]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([1, 3, 5]);
+  });
+
+  it("只有负数 [-5,-3,-1] => [-5,-3,-1]", () => {
+    const head = listToLink([-5, -3, -1]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([-5, -3, -1]);
+  });
+
+  it("所有节点值相同但较多 [1,1,1,1,1] => [1,1,1,1,1]", () => {
+    const head = listToLink([1, 1, 1, 1, 1]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([1, 1, 1, 1, 1]);
+  });
+
+  it("包含多个0 [0,5,-3,0] => [-3,0,0,5]", () => {
+    const head = listToLink([0, 5, -3, 0]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([-3, 0, 0, 5]);
+  });
+
+  it("较大数值 [100,50,200] => [50,100,200]", () => {
+    const head = listToLink([100, 50, 200]);
+    const result = sortListByIteration(head);
+    expect(linkToList(result)).toEqual([50, 100, 200]);
   });
 });
