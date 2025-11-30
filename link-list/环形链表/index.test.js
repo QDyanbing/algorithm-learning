@@ -1,35 +1,44 @@
 import { describe, it, expect } from "vitest";
-import { hasCycle } from "./index.js";
+import {
+  hasCycle,
+  hasCycleByHashSet,
+  hasCycleByMarking,
+} from "./index.js";
 import { createCycleList } from "../base.js";
 
-describe("环形链表", () => {
-  it("测试用例: [3,2,0,-4], pos = 1 (有环)", () => {
-    const head = createCycleList([3, 2, 0, -4], 1);
-    expect(hasCycle(head)).toBe(true);
-  });
+const testCases = [
+  { input: [3, 2, 0, -4], pos: 1, expected: true },
+  { input: [1, 2], pos: 0, expected: true },
+  { input: [1], pos: -1, expected: false },
+  { input: [1, 2, 3, 4, 5], pos: -1, expected: false },
+  { input: [], pos: -1, expected: false },
+  { input: [1, 2, 3, 4, 5], pos: 2, expected: true },
+];
 
-  it("测试用例: [1,2], pos = 0 (有环)", () => {
-    const head = createCycleList([1, 2], 0);
-    expect(hasCycle(head)).toBe(true);
+describe("环形链表 - 快慢指针法", () => {
+  testCases.forEach(({ input, pos, expected }) => {
+    it(`测试用例: [${input.join(",")}], pos = ${pos}`, () => {
+      const head = input.length > 0 ? createCycleList(input, pos) : null;
+      expect(hasCycle(head)).toBe(expected);
+    });
   });
+});
 
-  it("测试用例: [1], pos = -1 (无环)", () => {
-    const head = createCycleList([1], -1);
-    expect(hasCycle(head)).toBe(false);
+describe("环形链表 - 哈希表法", () => {
+  testCases.forEach(({ input, pos, expected }) => {
+    it(`测试用例: [${input.join(",")}], pos = ${pos}`, () => {
+      const head = input.length > 0 ? createCycleList(input, pos) : null;
+      expect(hasCycleByHashSet(head)).toBe(expected);
+    });
   });
+});
 
-  it("测试用例: [1,2,3,4,5], pos = -1 (无环)", () => {
-    const head = createCycleList([1, 2, 3, 4, 5], -1);
-    expect(hasCycle(head)).toBe(false);
-  });
-
-  it("测试用例: [] (空链表)", () => {
-    expect(hasCycle(null)).toBe(false);
-  });
-
-  it("测试用例: [1,2,3,4,5], pos = 2 (有环)", () => {
-    const head = createCycleList([1, 2, 3, 4, 5], 2);
-    expect(hasCycle(head)).toBe(true);
+describe("环形链表 - 标记法", () => {
+  testCases.forEach(({ input, pos, expected }) => {
+    it(`测试用例: [${input.join(",")}], pos = ${pos}`, () => {
+      const head = input.length > 0 ? createCycleList(input, pos) : null;
+      expect(hasCycleByMarking(head)).toBe(expected);
+    });
   });
 });
 
