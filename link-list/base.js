@@ -26,3 +26,24 @@ export function linkToList(head) {
   }
   return result;
 }
+
+/**
+ * 创建带环的链表
+ * @param {number[]} values 节点值数组
+ * @param {number} pos 环的入口位置（-1 表示无环）
+ * @returns {ListNode|null} 链表的头结点
+ */
+export function createCycleList(values, pos) {
+  if (values.length === 0) return null;
+
+  const nodes = values.map((val) => new ListNode(val));
+  for (let i = 0; i < nodes.length - 1; i++) {
+    nodes[i].next = nodes[i + 1];
+  }
+
+  if (pos >= 0 && pos < nodes.length) {
+    nodes[nodes.length - 1].next = nodes[pos];
+  }
+
+  return nodes[0];
+}
