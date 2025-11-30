@@ -78,12 +78,6 @@ export const hasCycleByMarking = function (head) {
   while (current) {
     if (current.visited) {
       // Step 2：节点已被标记，说明存在环
-      // 恢复原链表（可选，清除标记）
-      let temp = head;
-      while (temp) {
-        delete temp.visited;
-        temp = temp.next;
-      }
       return true;
     }
     current.visited = true; // Step 3：标记当前节点
