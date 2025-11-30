@@ -13,6 +13,7 @@ algorithm-learning/
 │   ├── 反转链表/
 │   ├── 合并两个有序链表/
 │   ├── 回文链表/
+│   ├── 环形链表/
 │   ├── 排序链表/
 │   └── 相交链表/
 ├── array/              # 数组相关题目
@@ -68,3 +69,4 @@ algorithm-learning/
 | 2025-10-24 | 排序链表         | Medium | 链表 | ✅   | [LCR 077](https://leetcode.cn/problems/7WHec2/description/)                                  |
 | 2025-10-25 | 相交链表         | Easy   | 链表 | ✅   | [LCR 023](https://leetcode.cn/problems/3u1WK4/description/)                                  |
 | 2025-10-26 | 删除排序链表中的重复元素 | Easy   | 链表 | ✅   | [LeetCode 83](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/description/) |
+| 2025-10-27 | 环形链表         | Easy   | 链表 | ✅   | [LeetCode 141](https://leetcode.cn/problems/linked-list-cycle/description/)                  |
