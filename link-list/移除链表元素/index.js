@@ -23,6 +23,9 @@
  * 步骤4：检查 3，保留，current 移动到 3
  * ... 以此类推
  * 
+ * 时间复杂度：O(n)，其中 n 是链表的长度，需要遍历整个链表一次
+ * 空间复杂度：O(1)，只使用了常数额外空间（虚拟头节点和指针）
+ * 
  * @param {ListNode|null} head 原链表头结点
  * @param {number} val 要删除的节点值
  * @returns {ListNode|null} 删除后的链表头
@@ -86,6 +89,9 @@ export const removeElements = function (head, val) {
  *     -> 返回 2 -> 3 -> null
  *   -> 返回 1 -> 2 -> 3 -> null
  * 
+ * 时间复杂度：O(n)，其中 n 是链表的长度，需要递归处理每个节点
+ * 空间复杂度：O(n)，递归调用栈的深度为链表的长度，最坏情况下需要 O(n) 的栈空间
+ * 
  * @param {ListNode|null} head 原链表头结点
  * @param {number} val 要删除的节点值
  * @returns {ListNode|null} 删除后的链表头
@@ -141,6 +147,9 @@ export const removeElementsRecursive = function (head, val) {
  *   prev 在 1，current 在 2，保留
  *   prev 在 2，current 在 7，删除 7
  *   结果：[1,2]
+ * 
+ * 时间复杂度：O(n)，其中 n 是链表的长度，需要遍历整个链表一次
+ * 空间复杂度：O(1)，只使用了常数额外空间（两个指针）
  * 
  * @param {ListNode|null} head 原链表头结点
  * @param {number} val 要删除的节点值
