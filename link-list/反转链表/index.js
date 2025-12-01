@@ -6,6 +6,10 @@
  * 3. 将 `current.next` 指向 `prev`，等价于把当前节点插到已反转链表头部。
  * 4. 将 `prev`、`current` 向前推进，直到原链表遍历完毕。
  * 当 `current` 走到 null 时，`prev` 即新链表的头结点。
+ * 
+ * 时间复杂度：O(n)，其中 n 是链表的长度，需要遍历整个链表一次
+ * 空间复杂度：O(1)，只使用了常数额外空间（两个指针）
+ * 
  * @param {ListNode|null} head 原链表头结点
  * @returns {ListNode|null} 反转后的头结点
  */
@@ -31,6 +35,10 @@ export const reverseListByIteration = function (head) {
  * 3. 回溯阶段把 `head.next.next` 指回 `head`，相当于把当前节点追加到子链尾部。
  * 4. 断开 `head.next`，让当前节点成为新的尾结点，防止形成环。
  * 整个递归都会返回 `newHead`，于是最初调用即可得到反转结果。
+ * 
+ * 时间复杂度：O(n)，其中 n 是链表的长度，需要递归处理每个节点
+ * 空间复杂度：O(n)，递归调用栈的深度为链表的长度，最坏情况下需要 O(n) 的栈空间
+ * 
  * @param {ListNode|null} head 原链表头结点
  * @returns {ListNode|null} 反转后的头结点
  */
