@@ -54,4 +54,130 @@ export const removeElements = function (head, val) {
   return dummyHead.next;
 };
 
+/**
+ * 递归删除链表中所有值等于 val 的节点
+ * 
+ * 核心思路：先处理后面的链表，再决定当前节点是否保留
+ * 
+ * 递归思想：
+ * - 假设我们已经知道如何删除后续链表中所有值为 val 的节点
+ * - 那么只需要决定当前节点是否保留
+ * 
+ * 执行过程：
+ * 1. 如果链表为空，直接返回 null（递归终止条件）
+ * 2. 递归处理 head.next，删除后续链表中所有值为 val 的节点
+ * 3. 处理完后续链表后，检查当前节点 head 的值
+ *    - 如果 head.val === val：不保留当前节点，返回处理后的后续链表
+ *    - 如果 head.val !== val：保留当前节点，让 head.next 指向处理后的后续链表
+ * 
+ * 示例：删除 [1,2,6,3,6] 中的 6
+ * removeElements([1,2,6,3,6], 6)
+ *   -> 当前节点是 1，不等于 6，保留
+ *   -> 递归处理 [2,6,3,6]
+ *     -> 当前节点是 2，不等于 6，保留
+ *     -> 递归处理 [6,3,6]
+ *       -> 当前节点是 6，等于 6，不保留，返回 [3,6] 的处理结果
+ *         -> 递归处理 [3,6]
+ *           -> 当前节点是 3，不等于 6，保留
+ *           -> 递归处理 [6]
+ *             -> 当前节点是 6，等于 6，不保留，返回 null
+ *           -> 返回 3 -> null
+ *       -> 返回 3 -> null
+ *     -> 返回 2 -> 3 -> null
+ *   -> 返回 1 -> 2 -> 3 -> null
+ * 
+ * @param {ListNode|null} head 原链表头结点
+ * @param {number} val 要删除的节点值
+ * @returns {ListNode|null} 删除后的链表头
+ */
+export const removeElementsRecursive = function (head, val) {
+  // 递归终止条件：如果链表为空，直接返回 null
+  if (head === null) {
+    return null;
+  }
+  
+  // 先递归处理后续链表，删除后续链表中所有值为 val 的节点
+  // 处理完后，head.next 指向的就是处理后的后续链表
+  head.next = removeElementsRecursive(head.next, val);
+  
+  // 检查当前节点是否需要删除
+  if (head.val === val) {
+    // 如果当前节点的值等于 val，不保留当前节点
+    // 直接返回处理后的后续链表（跳过当前节点）
+    return head.next;
+  } else {
+    // 如果当前节点的值不等于 val，保留当前节点
+    // 返回当前节点，它的 next 已经指向处理后的后续链表
+    return head;
+  }
+};
+
+/**
+ * 迭代删除链表中所有值等于 val 的节点（不使用虚拟头节点）
+ * 
+ * 核心思路：分两步处理
+ * 1. 先处理头节点（可能连续多个头节点都需要删除）
+ * 2. 再处理中间节点
+ * 
+ * 为什么分两步？
+ * - 头节点的删除需要改变 head 的指向，比较特殊
+ * - 中间节点的删除只需要改变前一个节点的 next，逻辑统一
+ * 
+ * 执行过程：
+ * 第一步：删除所有需要删除的头节点
+ *   - 如果 head 存在且 head.val === val，让 head 指向 head.next
+ *   - 重复这个过程，直到 head 为 null 或 head.val !== val
+ * 
+ * 第二步：删除中间节点
+ *   - 使用两个指针：prev（前一个节点）和 current（当前节点）
+ *   - prev 从 head 开始，current 从 head.next 开始
+ *   - 遍历链表，如果 current.val === val，删除 current
+ *   - 删除方法：让 prev.next 指向 current.next（跳过 current）
+ * 
+ * 示例：删除 [7,7,1,2,7] 中的 7
+ * 第一步：删除头节点
+ *   [7,7,1,2,7] -> [7,1,2,7] -> [1,2,7]
+ * 第二步：删除中间节点
+ *   prev 在 1，current 在 2，保留
+ *   prev 在 2，current 在 7，删除 7
+ *   结果：[1,2]
+ * 
+ * @param {ListNode|null} head 原链表头结点
+ * @param {number} val 要删除的节点值
+ * @returns {ListNode|null} 删除后的链表头
+ */
+export const removeElementsIterative = function (head, val) {
+  // 第一步：删除所有需要删除的头节点
+  // 如果头节点的值等于 val，就删除它，让 head 指向下一个节点
+  // 重复这个过程，直到 head 为 null 或 head.val !== val
+  while (head !== null && head.val === val) {
+    head = head.next;
+  }
+  
+  // 如果删除完头节点后，链表为空，直接返回 null
+  if (head === null) {
+    return null;
+  }
+  
+  // 第二步：删除中间节点
+  // 现在 head 肯定不是要删除的节点了，可以安全地开始遍历
+  let prev = head;        // prev 指向当前已确认保留的节点
+  let current = head.next; // current 指向待检查的节点
+  
+  // 遍历链表，检查每个节点
+  while (current !== null) {
+    if (current.val === val) {
+      // 如果当前节点需要删除，让 prev.next 跳过 current，指向 current.next
+      prev.next = current.next;
+      // 注意：删除后 prev 不移动，因为新的 prev.next 可能也需要删除
+    } else {
+      // 如果当前节点保留，prev 向前移动
+      prev = current;
+    }
+    // current 始终向前移动，检查下一个节点
+    current = current.next;
+  }
+  
+  return head;
+};
 
